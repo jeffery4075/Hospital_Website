@@ -1,0 +1,320 @@
+/* ===== Base reset ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    color: #0d2853;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:focus,
+button:focus {
+    outline: 2px solid #5fb3ff;
+    outline-offset: 2px;
+}
+
+/* ===== Layout containers ===== */
+#main {
+    min-height: 100%;
+    width: 100%;
+}
+
+/* ===== Topbar ===== */
+#topbar {
+    background-color: #0d2853;
+    color: #fff;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 10%;
+}
+
+#topbar .left,
+#topbar .right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+}
+
+#topbar .left a,
+#topbar .right a {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+#topbar svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 2px;
+    vertical-align: middle;
+    flex: 0 0 auto;
+}
+
+/* ===== Header (banner) ===== */
+#header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 10%;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .08);
+    position: relative;
+    z-index: 10;
+}
+
+#logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 56px;
+    flex: 0 0 auto;
+}
+
+#logo img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Keep header_content just for the single Home link */
+#header_content {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+}
+
+/* Primary nav */
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 8px 18px;
+    flex-wrap: wrap;
+}
+
+/* Pill link style for “Home” */
+.text {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    color: #17055f;
+    transition: background .2s ease, transform .15s ease, box-shadow .2s ease;
+}
+
+.text:hover {
+    background: rgba(3, 27, 246, .08);
+    color: #031bf6;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(3, 27, 246, .12);
+}
+
+/* Login buttons (kept to the right) */
+#login-buttons {
+    display: flex;
+    gap: 12px;
+    margin-left: auto;
+    flex: 0 0 auto;
+}
+
+.login-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    padding: 0 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .2s ease, transform .15s ease;
+    will-change: transform;
+}
+
+.login-staff {
+    background: linear-gradient(135deg, #5fb3ff, #3a8dde);
+}
+
+.login-staff:hover {
+    background: linear-gradient(135deg, #0078ff, #005fcc);
+}
+
+.login-patient {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.login-patient:hover {
+    background: linear-gradient(135deg, #d43f00, #c13c00);
+}
+
+.login-btn:hover {
+    transform: scale(1.05);
+}
+
+.login-btn:active {
+    transform: scale(0.97);
+}
+
+.login-doctor {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+.login-doctor:hover {
+  background: linear-gradient(135deg, #16a34a, #0f9d58);
+}
+
+/* ===== Services section ===== */
+#services {
+    position: relative;
+    padding: 10% 10%;
+    text-align: center;
+    background: url('/static/Home/images/bg.jpg') no-repeat center center/cover;
+}
+
+#services::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 0;
+}
+
+#services>* {
+    position: relative;
+    z-index: 1;
+}
+
+#services h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #fff;
+    font-weight: 800;
+}
+
+.service-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 28px;
+    flex: 1 1 300px;
+    /* responsive width */
+    max-width: 360px;
+    /* keeps three in a row on desktop */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.card h3 {
+    margin-bottom: 12px;
+    color: #0d2853;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.card p {
+    color: #444;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.card a button,
+.card button {
+    margin-top: 12px;
+    padding: 10px 22px;
+    border: none;
+    background-color: #e11d48;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color .2s ease, transform .15s ease;
+}
+
+.card button:hover {
+    background-color: #c3123c;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, .15);
+}
+
+/* ===== Footer ===== */
+#footer {
+    background: #0d2853;
+    color: #fff;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 60px 10%;
+    font-size: 14px;
+    flex-wrap: wrap;
+}
+
+.footer-topic h3,
+.footer-topic h4 {
+    margin-bottom: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    border-bottom: 2px solid #ffb703;
+    display: inline-block;
+    padding-bottom: 4px;
+}
+
+.footer-topic ul {
+    list-style: none;
+}
+
+.footer-topic ul li {
+    margin: 6px 0;
+    cursor: pointer;
+    transition: color .2s, transform .15s;
+}
+
+.footer-topic ul li:hover {
+    color: #ffb703;
+    transform: translateX(4px);
+}
+
+#footer a {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+#footer-bottom {
+    background: #092041;
+    color: #aaa;
+    text-align: center;
+    padding: 12px;
+    font-size: 13px;
+}
+
+
+

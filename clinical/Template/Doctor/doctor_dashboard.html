@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Doctor Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'Doctor/css/Doctor_dashboard_style.css' %}">
+</head>
+
+<body>
+  <div class="MainPage">
+
+    <!-- Header + Date filter -->
+    <div class="card">
+      <div class="card-header">
+        <h1>Doctor Dashboard</h1>
+        <a href="{% url 'doctor_logout' %}" class="btn btn-pill btn-danger btn-sm">Logout</a>
+      </div>
+
+      <form method="get" action="" class="Inline-field" novalidate>
+        <div class="field">
+          <label for="date">Date</label>
+          <input type="date" id="date" name="date" value="{{ selected_date|default:'' }}">
+        </div>
+        <div class="button-container">
+          <button type="submit" class="btn btn-pill btn-primary btn-sm">Load</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Appointments list -->
+    <div class="card">
+      <h2>My Appointments on {{ selected_date }}</h2>
+
+      {% if appointments %}
+      {% for a in appointments %}
+      <div class="Inline-field">
+        <div class="field">
+          <label>Patient</label>
+          <input type="text" value="{{ a.patient.get_full_name|default:a.patient.username }}" readonly>
+        </div>
+        <div class="field">
+          <label>Time</label>
+          <input type="text" value="{{ a.appointment_time|time:'H:i' }}" readonly>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <input type="text" value="{{ a.get_status_display }}" readonly>
+        </div>
+      </div>
+
+      {% if a.notes %}
+      <div class="Inline-field">
+        <div class="field" style="flex-basis:100%;">
+          <label>Notes</label>
+          <textarea rows="2" readonly>{{ a.notes }}</textarea>
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="button-container" style="justify-content:flex-end;">
+        {% if a.status == 'confirmed' %}
+        <a href="{% url 'doctor_appointment_detail' a.id %}" class="btn btn-pill btn-primary btn-sm">Open</a>
+        {% else %}
+        <button type="button" class="btn btn-pill btn-sm" style="background:#eef2f7; cursor:not-allowed;" disabled>
+          Locked
+        </button>
+        {% endif %}
+      </div>
+
+      <hr>
+      {% endfor %}
+      {% else %}
+      <p class="error">No appointments found for this date.</p>
+      {% endif %}
+    </div>
+
+  </div>
+</body>
+
+</html>

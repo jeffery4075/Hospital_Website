@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'Patient/css/Signup_style.css' %}">
+</head>
+<body>
+  <div class="MainPage">
+    <form action="" class="card" method="post" novalidate>
+      {% csrf_token %}
+      <h1>Create Patient</h1>
+
+      {% if form.non_field_errors %}
+        <div class="error">
+          {% for err in form.non_field_errors %}
+            <div>{{ err }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <!-- First and Last Name -->
+      <div class="Inline-field">
+        <div class="field">
+          <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+          {{ form.first_name }}
+          {% for error in form.first_name.errors %}
+            <span class="error">{{ error }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="field">
+          <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+          {{ form.last_name }}
+          {% for error in form.last_name.errors %}
+            <span class="error">{{ error }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Gender and DOB -->
+      <div class="Inline-field">
+        <div class="field">
+          <label for="{{ form.gender.id_for_label }}">{{ form.gender.label }}</label>
+          {{ form.gender }}
+          {% for error in form.gender.errors %}
+            <span class="error">{{ error }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="field">
+          <label for="{{ form.dob.id_for_label }}">{{ form.dob.label }}</label>
+          {{ form.dob }}
+          {% for error in form.dob.errors %}
+            <span class="error">{{ error }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Pincode and Phone -->
+      <div class="Inline-field">
+        <div class="field">
+          <label for="{{ form.pincode.id_for_label }}">{{ form.pincode.label }}</label>
+          {{ form.pincode }}
+          {% for error in form.pincode.errors %}
+            <span class="error">{{ error }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="field">
+          <label for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}</label>
+          {{ form.phone_number }}
+          {% for error in form.phone_number.errors %}
+            <span class="error">{{ error }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Username and Email -->
+      <div class="Inline-field">
+        <div class="field">
+          <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+          {{ form.username }}
+          {% for error in form.username.errors %}
+            <span class="error">{{ error }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="field">
+          <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+          {{ form.email }}
+          {% for error in form.email.errors %}
+            <span class="error">{{ error }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Password and Confirm Password -->
+      <div class="Inline-field">
+        <div class="field">
+          <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+          {{ form.password1 }}
+          {% for error in form.password1.errors %}
+            <span class="error">{{ error }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="field">
+          <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+          {{ form.password2 }}
+          {% for error in form.password2.errors %}
+            <span class="error">{{ error }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="button-container">
+        <button type="submit" class="btn btn-pill btn-primary">Submit</button>
+        <a href="/" class="btn btn-pill btn-danger">Cancel</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

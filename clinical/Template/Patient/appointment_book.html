@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Appointment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Reuse your dashboard styling -->
+  <link rel="stylesheet" href="{% static 'Patient/css/Patient_dashboard_style.css' %}">
+  <style>
+    .slots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .slot-btn {
+      height: 40px;
+      border: 0;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      background: linear-gradient(135deg, #7db7ff, #3a8dde);
+      color: #0b2850;
+      box-shadow: 0 6px 12px rgba(58,141,222,.25);
+      transition: transform .06s ease-in-out, filter .2s;
+    }
+    .slot-btn:hover { filter: brightness(1.05); color: #fff; }
+    .slot-btn:active { transform: translateY(1px); }
+    .slot-disabled {
+      background: #e9eef6;
+      color: #607083;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .note {
+      font-size: 13px;
+      color: #607083;
+      margin-top: 6px;
+    }
+    .error {
+      color: #b00020;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="MainPage">
+
+    <!-- Card 1: Choose doctor + date -->
+    <div class="card">
+      <h1>Book Appointment</h1>
+
+      {% if error_message %}
+        <div class="error">{{ error_message }}</div>
+      {% endif %}
+
+      <form method="post" class="Inline-field" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="action" value="search">
+
+        <!-- Doctor select -->
+        <div class="field">
+          <label for="doctor_id">Doctor</label>
+          <select name="doctor_id" id="doctor_id">
+            <option value="">-- Select Doctor --</option>
+            {% for d in doctors %}
+              <option value="{{ d.id }}" {% if d.id|stringformat:'s' == selected_doctor_id|stringformat:'s' %}selected{% endif %}>
+                {{ d.user.get_full_name|default:d.user.username }} — {{ d.specialization }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Date select -->
+        <div class="field">
+          <label for="date">Date</label>
+          <input type="date" id="date" name="date" value="{{ selected_date }}">
+          <span class="note">Only working days show slots.</span>
+        </div>
+
+        <div class="button-container">
+          <button type="submit" class="btn btn-pill btn-primary">Show Slots</button>
+          <a href="{% url 'patient_dashboard' %}" class="btn btn-pill btn-danger">Cancel</a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Card 2: Slots -->
+    <div class="card">
+      <h2 style="font-size:20px;color:#1a2a5e;">Available Slots</h2>
+
+      {% if selected_doctor_id and selected_date %}
+        {% if slots %}
+          <div class="slots-grid">
+            {% for s in slots %}
+              {% if s.booked or s.blocked %}
+                <button type="button" class="slot-btn slot-disabled" disabled>
+                  {{ s.time_display }}
+                </button>
+              {% else %}
+                <form method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="action" value="book">
+                  <input type="hidden" name="doctor_id" value="{{ selected_doctor_id }}">
+                  <input type="hidden" name="date" value="{{ selected_date }}">
+                  <input type="hidden" name="time" value="{{ s.time_value }}">
+                  <button type="submit" class="slot-btn">{{ s.time_display }}</button>
+                </form>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="note">Gray slots are unavailable (booked or doctor on leave).</div>
+        {% else %}
+          <p class="error">No slots available for the selected date.</p>
+        {% endif %}
+      {% else %}
+        <p class="note">Pick a doctor and date, then click “Show Slots”.</p>
+      {% endif %}
+    </div>
+
+  </div>
+</body>
+</html>

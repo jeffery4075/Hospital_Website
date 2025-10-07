@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment – Check-in</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- reuse staff dashboard styles so it matches -->
+    <link rel="stylesheet" href="{% static 'Staff/css/Staff_dashboard_style.css' %}">
+</head>
+
+<body>
+    <div class="MainPage">
+
+        <!-- Summary card -->
+        <div class="card">
+            <div class="card-header">
+                <h1>Appointment Detail</h1>
+                <a href="{% url 'staff_logout' %}" class="btn btn-pill btn-danger btn-sm">Logout</a>
+            </div>
+
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Patient</label>
+                    <input type="text"
+                        value="{{ appointment.patient.get_full_name|default:appointment.patient.username }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Doctor</label>
+                    <input type="text" value="{{ appointment.doctor }}" readonly>
+                </div>
+            </div>
+
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Date</label>
+                    <input type="text" value="{{ appointment.appointment_date|date:'M d, Y' }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Time</label>
+                    <input type="text" value="{{ appointment.appointment_time|time:'H:i' }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Status</label>
+                    <input type="text" value="{{ appointment.get_status_display }}" readonly>
+                </div>
+            </div>
+        </div>
+
+        <!-- Check-in / vitals card -->
+        <div class="card">
+            <h2>{{ has_visit|yesno:"Update Vitals,Record Vitals" }}</h2>
+
+            <form method="post" class="Inline-field" novalidate>
+                {% csrf_token %}
+
+                <div class="field">
+                    <label for="{{ form.height_cm.id_for_label }}">Height (cm)</label>
+                    {{ form.height_cm }}
+                    {% for e in form.height_cm.errors %}<span class="error">{{ e }}</span>{% endfor %}
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.weight_kg.id_for_label }}">Weight (kg)</label>
+                    {{ form.weight_kg }}
+                    {% for e in form.weight_kg.errors %}<span class="error">{{ e }}</span>{% endfor %}
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.blood_pressure.id_for_label }}">Blood Pressure</label>
+                    {{ form.blood_pressure }}
+                    {% for e in form.blood_pressure.errors %}<span class="error">{{ e }}</span>{% endfor %}
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.sugar_level.id_for_label }}">Sugar (mg/dL)</label>
+                    {{ form.sugar_level }}
+                    {% for e in form.sugar_level.errors %}<span class="error">{{ e }}</span>{% endfor %}
+                </div>
+
+                <div class="field" style="flex-basis:100%;">
+                    <label for="{{ form.notes.id_for_label }}">Notes</label>
+                    {{ form.notes }}
+                    {% for e in form.notes.errors %}<span class="error">{{ e }}</span>{% endfor %}
+                </div>
+
+                <div class="button-container" style="justify-content:flex-end; width:100%;">
+                    <button type="submit" class="btn btn-pill btn-primary btn-sm">Save &amp; Confirm</button>
+                    <button type="submit" name="action" value="cancel" class="btn btn-pill btn-danger btn-sm"
+                        onclick="return confirm('Cancel this appointment?');">
+                        Cancel Appointment
+                    </button>
+                    <a href="{% url 'staff_dashboard' %}" class="btn btn-pill btn-sm"
+                        style="background:#eef2f7;">Back</a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>
+
+</html>

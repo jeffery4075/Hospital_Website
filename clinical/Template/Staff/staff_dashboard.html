@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Staff Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'Staff/css/Staff_dashboard_style.css' %}">
+</head>
+<body>
+  <div class="MainPage">
+
+    <!-- Header + Filters -->
+    <div class="card">
+      <div class="card-header">
+        <h1>Staff Dashboard</h1>
+        <a href="{% url 'staff_logout' %}" class="btn btn-pill btn-danger btn-sm">Logout</a>
+      </div>
+
+      <form method="get" action="" class="Inline-field" novalidate>
+        <div class="field">
+          <label for="date">Date</label>
+          <input type="date" id="date" name="date" value="{{ selected_date|default:'' }}">
+        </div>
+
+        <div class="field">
+          <label for="doctor_id">Doctor</label>
+          <select name="doctor_id" id="doctor_id">
+            <option value="">All Doctors</option>
+            {% for d in doctors %}
+              <option value="{{ d.id }}" {% if d.id == selected_doctor_id %}selected{% endif %}>
+                {{ d.user.get_full_name|default:d.user.username }} — {{ d.specialization }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="button-container">
+          <button type="submit" class="btn btn-pill btn-primary btn-sm">Filter</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Appointments list -->
+    <div class="card">
+      <h2>Appointments on {{ selected_date }}</h2>
+
+      {% if appointments %}
+        {% for a in appointments %}
+          <div class="Inline-field">
+            <div class="field">
+              <label>Patient</label>
+              <input type="text" value="{{ a.patient.get_full_name|default:a.patient.username }}" readonly>
+            </div>
+            <div class="field">
+              <label>Doctor</label>
+              <input type="text" value="{{ a.doctor }}" readonly>
+            </div>
+            <div class="field">
+              <label>Time</label>
+              <input type="text" value="{{ a.appointment_time|time:'H:i' }}" readonly>
+            </div>
+            <div class="field">
+              <label>Status</label>
+              <input type="text" value="{{ a.get_status_display }}" readonly>
+            </div>
+          </div>
+
+          {% if a.notes %}
+            <div class="Inline-field">
+              <div class="field">
+                <label>Notes</label>
+                <textarea rows="2" readonly>{{ a.notes }}</textarea>
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="button-container" style="justify-content:flex-end;">
+            <a href="{% url 'staff_appointment_detail' a.id %}" class="btn btn-pill btn-primary btn-sm">Manage</a>
+          </div>
+
+          <hr>
+        {% endfor %}
+      {% else %}
+        <p class="error">No appointments for this selection.</p>
+      {% endif %}
+    </div>
+
+  </div>
+</body>
+</html>

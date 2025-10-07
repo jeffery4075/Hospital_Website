@@ -1,0 +1,239 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'Patient/css/Patient_dashboard_style.css' %}">
+</head>
+
+<body>
+    <div class="MainPage">
+
+        <!-- Profile card -->
+        <div class="card">
+            <h1>My Profile</h1>
+
+            <!-- Account Info -->
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Username</label>
+                    <input type="text" value="{{ request.user.username }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Email</label>
+                    <input type="text" value="{{ request.user.email }}" readonly>
+                </div>
+            </div>
+
+            <div class="Inline-field">
+                <div class="field">
+                    <label>First name</label>
+                    <input type="text" value="{{ request.user.first_name }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Last name</label>
+                    <input type="text" value="{{ request.user.last_name }}" readonly>
+                </div>
+            </div>
+
+            <!-- Patient Info -->
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Gender</label>
+                    <input type="text" value="{{ request.user.patient.get_gender_display }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Date of Birth</label>
+                    <input type="text" value="{{ request.user.patient.dob|date:'M d, Y' }}" readonly>
+                </div>
+            </div>
+
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Pincode</label>
+                    <input type="text" value="{{ request.user.patient.pincode }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Phone</label>
+                    <input type="text" value="{{ request.user.patient.phone_number }}" readonly>
+                </div>
+            </div>
+
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Address</label>
+                    <input type="text" value="{{ request.user.patient.address }}" readonly>
+                </div>
+            </div>
+
+            <div class="Inline-field">
+                <div class="field">
+                    <label>City</label>
+                    <input type="text" value="{{ request.user.patient.city }}" readonly>
+                </div>
+                <div class="field">
+                    <label>State</label>
+                    <input type="text" value="{{ request.user.patient.state }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Country</label>
+                    <input type="text" value="{{ request.user.patient.country }}" readonly>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <a href="{% url 'edit_profile' %}" class="btn btn-pill btn-primary">Edit Profile</a>
+                <a href="{% url 'change_password' %}" class="btn btn-pill btn-primary1">Change Password</a>
+
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-pill btn-danger">Logout</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Upcoming Appointments -->
+        <div class="card">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+                <h2>Upcoming Appointments</h2>
+                <a href="{% url 'book_appointment' %}" class="btn btn-pill btn-success">Book Appointment</a>
+            </div>
+
+            {% if upcoming_appointments %}
+            {% for appt in upcoming_appointments %}
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Doctor</label>
+                    <input type="text" value="{{ appt.doctor }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Date</label>
+                    <input type="text" value="{{ appt.appointment_date|date:'M d, Y' }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Time</label>
+                    <input type="text" value="{{ appt.appointment_time|time:'H:i' }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Status</label>
+                    <input type="text" value="{{ appt.get_status_display }}" readonly>
+                </div>
+            </div>
+
+            <!-- Cancel (only for non-canceled upcoming ones; your view already selects upcoming) -->
+            {% if appt.status != 'canceled' %}
+            <form action="{% url 'cancel_appointment' appt.id %}" method="post" style="margin-top:8px;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-pill btn-danger1">Cancel</button>
+            </form>
+            {% endif %}
+            <hr>
+            {% endfor %}
+            {% else %}
+            <p class="error">No upcoming appointments.</p>
+            {% endif %}
+        </div>
+
+        <!-- Recent Visits -->
+        <div class="card">
+            <h2>Recent Visits</h2>
+            {% if visits %}
+            {% for v in visits %}
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Doctor</label>
+                    <input type="text" value="{{ v.doctor }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Visit On</label>
+                    <input type="text" value="{{ v.created_at|date:'M d, Y' }} {{ v.created_at|time:'H:i' }}" readonly>
+                </div>
+                <div class="field">
+                    <label>BP</label>
+                    <input type="text" value="{{ v.blood_pressure }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Sugar</label>
+                    <input type="text" value="{{ v.sugar_level }}" readonly>
+                </div>
+            </div>
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Height (cm)</label>
+                    <input type="text" value="{{ v.height_cm }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Weight (kg)</label>
+                    <input type="text" value="{{ v.weight_kg }}" readonly>
+                </div>
+            </div>
+            {% if v.notes %}
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Notes</label>
+                    <textarea readonly rows="3">{{ v.notes }}</textarea>
+                </div>
+            </div>
+            {% endif %}
+            <hr>
+            {% endfor %}
+            {% else %}
+            <p class="error">No visits recorded yet.</p>
+            {% endif %}
+        </div>
+
+        <!-- Prescriptions -->
+        <div class="card">
+            <h2>Prescriptions</h2>
+            {% if prescriptions %}
+            {% for p in prescriptions %}
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Medicine</label>
+                    <input type="text" value="{{ p.medicine_name }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Dosage</label>
+                    <input type="text" value="{{ p.dosage }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Frequency</label>
+                    <input type="text" value="{{ p.frequency }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Duration (days)</label>
+                    <input type="text" value="{{ p.duration_days }}" readonly>
+                </div>
+            </div>
+            {% if p.notes %}
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Notes</label>
+                    <textarea readonly rows="2">{{ p.notes }}</textarea>
+                </div>
+            </div>
+            {% endif %}
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Prescribed On</label>
+                    <input type="text" value="{{ p.created_at|date:'M d, Y' }}" readonly>
+                </div>
+                <div class="field">
+                    <label>By Doctor</label>
+                    <input type="text" value="{{ p.doctor }}" readonly>
+                </div>
+            </div>
+            <hr>
+            {% endfor %}
+            {% else %}
+            <p class="error">No prescriptions yet.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</body>
+
+</html>

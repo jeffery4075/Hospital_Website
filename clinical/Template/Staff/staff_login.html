@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Staff Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'Staff/css/Staff_login_style.css' %}">
+</head>
+<body>
+  <div class="MainPage">
+    <form method="post" action="{% url 'staff_login' %}" class="card" novalidate>
+      {% csrf_token %}
+      <h1>Staff Login</h1>
+      <p class="sub">Use your staff credentials to continue.</p>
+
+      {% if error %}
+        <div class="error">{{ error }}</div>
+      {% endif %}
+
+      <input type="hidden" name="next" value="{{ next|default:'' }}">
+
+      <div class="Inline-field">
+        <div class="field">
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" autocomplete="username" required>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+      </div>
+
+      <div class="button-container">
+        <button type="submit" class="btn btn-primary">Login</button>
+  
+        <a href="{% url 'HomePage' %}" class="btn btn-danger">Cancel</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

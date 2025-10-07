@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Visit & Prescribe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'Doctor/css/Doctor_dashboard_style.css' %}">
+</head>
+
+<body>
+    <div class="MainPage">
+
+        <!-- Summary -->
+        <div class="card">
+            <div class="card-header">
+                <h1>Visit &amp; Prescribe</h1>
+                <a href="{% url 'doctor_logout' %}" class="btn btn-pill btn-danger btn-sm">Logout</a>
+            </div>
+
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Patient</label>
+                    <input type="text"
+                        value="{{ appointment.patient.get_full_name|default:appointment.patient.username }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Date</label>
+                    <input type="text" value="{{ appointment.appointment_date|date:'M d, Y' }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Time</label>
+                    <input type="text" value="{{ appointment.appointment_time|time:'H:i' }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Status</label>
+                    <input type="text" value="{{ appointment.get_status_display }}" readonly>
+                </div>
+            </div>
+
+            {% if not can_prescribe %}
+            <p class="error">This appointment is {{ appointment.get_status_display|lower }}. Prescribing is disabled.
+            </p>
+            {% endif %}
+
+            <!-- Vitals -->
+            <div class="Inline-field" style="margin-top:6px;">
+                <div class="field">
+                    <label>Height (cm)</label>
+                    <input type="text" value="{{ visit.height_cm }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Weight (kg)</label>
+                    <input type="text" value="{{ visit.weight_kg }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Blood Pressure</label>
+                    <input type="text" value="{{ visit.blood_pressure }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Sugar (mg/dL)</label>
+                    <input type="text" value="{{ visit.sugar_level }}" readonly>
+                </div>
+            </div>
+
+            {% if visit.notes %}
+            <div class="Inline-field">
+                <div class="field" style="flex-basis:100%;">
+                    <label>Visit Notes</label>
+                    <textarea rows="2" readonly>{{ visit.notes }}</textarea>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Existing prescriptions -->
+        <div class="card">
+            <h2>Existing Prescriptions</h2>
+            {% if prescriptions %}
+            {% for p in prescriptions %}
+            <div class="Inline-field">
+                <div class="field">
+                    <label>Medicine</label>
+                    <input type="text" value="{{ p.medicine_name }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Dosage</label>
+                    <input type="text" value="{{ p.dosage }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Frequency</label>
+                    <input type="text" value="{{ p.frequency }}" readonly>
+                </div>
+                <div class="field">
+                    <label>Duration (days)</label>
+                    <input type="text" value="{{ p.duration_days }}" readonly>
+                </div>
+            </div>
+            {% if p.notes %}
+            <div class="Inline-field">
+                <div class="field" style="flex-basis:100%;">
+                    <label>Notes</label>
+                    <textarea rows="2" readonly>{{ p.notes }}</textarea>
+                </div>
+            </div>
+            {% endif %}
+            <hr>
+            {% endfor %}
+            {% else %}
+            <p class="error">No prescriptions added yet.</p>
+            {% endif %}
+        </div>
+
+        <!-- Add prescription -->
+        <div class="card">
+            <h2>Add Prescription</h2>
+
+            {% if can_prescribe %}
+            <form method="post" class="Inline-field" novalidate>
+                {% csrf_token %}
+
+                <div class="field">
+                    <label for="{{ form.medicine_name.id_for_label }}">Medicine</label>
+                    {{ form.medicine_name }}
+                    {% for e in form.medicine_name.errors %}<span class="error">{{ e }}</span>{% endfor %}
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.dosage.id_for_label }}">Dosage</label>
+                    {{ form.dosage }}
+                    {% for e in form.dosage.errors %}<span class="error">{{ e }}</span>{% endfor %}
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.frequency.id_for_label }}">Frequency</label>
+                    {{ form.frequency }}
+                    {% for e in form.frequency.errors %}<span class="error">{{ e }}</span>{% endfor %}
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.duration_days.id_for_label }}">Duration (days)</label>
+                    {{ form.duration_days }}
+                    {% for e in form.duration_days.errors %}<span class="error">{{ e }}</span>{% endfor %}
+                </div>
+
+                <div class="field" style="flex-basis:100%;">
+                    <label for="{{ form.notes.id_for_label }}">Notes</label>
+                    {{ form.notes }}
+                    {% for e in form.notes.errors %}<span class="error">{{ e }}</span>{% endfor %}
+                </div>
+
+                <div class="button-container" style="justify-content:flex-end;">
+                    <button type="submit" class="btn btn-pill btn-primary btn-sm">Add</button>
+                    <a href="{% url 'doctor_dashboard' %}" class="btn btn-pill btn-sm"
+                        style="background:#eef2f7;">Back</a>
+                </div>
+            </form>
+            {% else %}
+            <p class="error">You can only prescribe for confirmed appointments.</p>
+            <div class="button-container" style="justify-content:flex-end;">
+                <a href="{% url 'doctor_dashboard' %}" class="btn btn-pill btn-sm" style="background:#eef2f7;">Back</a>
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+</body>
+
+</html>

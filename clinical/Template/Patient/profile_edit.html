@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Patient/css/Patient_dashboard_style.css' %}">
+</head>
+
+<body>
+    <div class="MainPage">
+        <form method="post" class="card" novalidate>
+            {% csrf_token %}
+            <h1>Edit Profile</h1>
+
+            {% if uform.non_field_errors %}
+            <div class="error">
+                {% for e in uform.non_field_errors %}<div>{{ e }}</div>{% endfor %}
+            </div>
+            {% endif %}
+            {% if pform.non_field_errors %}
+            <div class="error">
+                {% for e in pform.non_field_errors %}<div>{{ e }}</div>{% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Account fields -->
+            <h2 style="font-size:18px;color:#1a2a5e;">Account</h2>
+            <div class="Inline-field">
+                <div class="field">
+                    <label for="{{ uform.first_name.id_for_label }}">{{ uform.first_name.label }}</label>
+                    {{ uform.first_name }}
+                    {% for error in uform.first_name.errors %}<span class="error">{{ error }}</span>{% endfor %}
+                </div>
+                <div class="field">
+                    <label for="{{ uform.last_name.id_for_label }}">{{ uform.last_name.label }}</label>
+                    {{ uform.last_name }}
+                    {% for error in uform.last_name.errors %}<span class="error">{{ error }}</span>{% endfor %}
+                </div>
+            </div>
+
+            <div class="Inline-field">
+                <div class="field">
+                    <label for="{{ uform.email.id_for_label }}">{{ uform.email.label }}</label>
+                    {{ uform.email }}
+                    {% for error in uform.email.errors %}<span class="error">{{ error }}</span>{% endfor %}
+                </div>
+            </div>
+
+            <!-- Patient fields -->
+            <h2 style="font-size:18px;color:#1a2a5e;">Patient</h2>
+            <div class="Inline-field">
+                <div class="field">
+                    <label for="{{ pform.gender.id_for_label }}">{{ pform.gender.label }}</label>
+                    {{ pform.gender }}
+                    {% for error in pform.gender.errors %}<span class="error">{{ error }}</span>{% endfor %}
+                </div>
+                <div class="field">
+                    <label for="{{ pform.dob.id_for_label }}">{{ pform.dob.label }}</label>
+                    {{ pform.dob }}
+                    {% for error in pform.dob.errors %}<span class="error">{{ error }}</span>{% endfor %}
+                </div>
+            </div>
+
+            <div class="Inline-field">
+                <div class="field">
+                    <label for="{{ pform.blood_group.id_for_label }}">{{ pform.blood_group.label }}</label>
+                    {{ pform.blood_group }}
+                    {% for error in pform.blood_group.errors %}<span class="error">{{ error }}</span>{% endfor %}
+                </div>
+                <div class="field">
+                    <label for="{{ pform.phone_number.id_for_label }}">{{ pform.phone_number.label }}</label>
+                    {{ pform.phone_number }}
+                    {% for error in pform.phone_number.errors %}<span class="error">{{ error }}</span>{% endfor %}
+                </div>
+            </div>
+
+            <div class="Inline-field">
+                <div class="field">
+                    <label for="{{ pform.pincode.id_for_label }}">{{ pform.pincode.label }}</label>
+                    {{ pform.pincode }}
+                    {% for error in pform.pincode.errors %}<span class="error">{{ error }}</span>{% endfor %}
+                </div>
+                <div class="field">
+                    <label for="{{ pform.address.id_for_label }}">{{ pform.address.label }}</label>
+                    {{ pform.address }}
+                    {% for error in pform.address.errors %}<span class="error">{{ error }}</span>{% endfor %}
+                </div>
+            </div>
+
+            <div class="Inline-field">
+                <div class="field">
+                    <label for="{{ pform.city.id_for_label }}">{{ pform.city.label }}</label>
+                    {{ pform.city }}
+                    {% for error in pform.city.errors %}<span class="error">{{ error }}</span>{% endfor %}
+                </div>
+                <div class="field">
+                    <label for="{{ pform.state.id_for_label }}">{{ pform.state.label }}</label>
+                    {{ pform.state }}
+                    {% for error in pform.state.errors %}<span class="error">{{ error }}</span>{% endfor %}
+                </div>
+                <div class="field">
+                    <label for="{{ pform.country.id_for_label }}">{{ pform.country.label }}</label>
+                    {{ pform.country }}
+                    {% for error in pform.country.errors %}<span class="error">{{ error }}</span>{% endfor %}
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="btn btn-pill btn-primary">Save Changes</button>
+                <a href="/patient_dashboard/" class="btn btn-pill btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Novena Hospital — Cochin, Kerala</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Home/css/Home_style.css' %}">
+    <meta name="description"
+        content="Novena Hospital, Cochin (Kerala): 24x7 emergency, specialist care, and online appointments.">
+</head>
+
+<body>
+    <div id="main">
+        <!-- Top bar -->
+        <div id="topbar">
+            <div class="left">
+                <!-- email icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24"
+                    fill="currentColor">
+                    <path
+                        d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM20 7.23792L12.0718 14.338L4 7.21594V19H20V7.23792ZM4.51146 5L12.0619 11.662L19.501 5H4.51146Z">
+                    </path>
+                </svg>
+                <a href="mailto:support@novena.com">support@novena.com</a>
+
+                <!-- location icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24"
+                    fill="currentColor">
+                    <path
+                        d="M12 20.8995L16.9497 15.9497C19.6834 13.2161 19.6834 8.78392 16.9497 6.05025C14.2161 3.31658 9.78392 3.31658 7.05025 6.05025C4.31658 8.78392 4.31658 13.2161 7.05025 15.9497L12 20.8995ZM12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364L12 23.7279ZM12 13C13.1046 13 14 12.1046 14 11C14 9.89543 13.1046 9 12 9C10.8954 9 10 9.89543 10 11C10 12.1046 10.8954 13 12 13ZM12 15C9.79086 15 8 13.2091 8 11C8 8.79086 9.79086 7 12 7C14.2091 7 16 8.79086 16 11C16 13.2091 14.2091 15 12 15Z">
+                    </path>
+                </svg>
+                <span>| Post Box No. 2259, Mamangalam, Palarivattom, Cochin, Kerala, India - 682 025</span>
+            </div>
+
+            <div class="right">
+                <span>Call Now : <a href="tel:+914842880000">+91-484-2880000</a></span>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div id="header" role="banner">
+            <div id="logo" aria-label="Novena Hospital">
+                <img src="{% static 'Home/images/logo.png' %}" alt="Novena Hospital logo">
+            </div>
+
+            <div id="header_content">
+                <nav aria-label="Primary" class="nav">
+                    <a class="text" href="/">Home</a>
+                </nav>
+            </div>
+
+            <div id="login-buttons">
+                <a href="{% url 'staff_login' %}" class="login-btn login-staff">Staff Login</a>
+                <a href="{% url 'doctor_login' %}" class="login-btn login-doctor">Doctor Login</a>
+                <a href="{% url 'login' %}" class="login-btn login-patient">Patient Login</a>
+            </div>
+
+        </div>
+
+        <div id="notice-root" aria-live="polite"></div>
+
+        <div id="fakeheader"></div>
+
+        <!-- Body: Services -->
+        <div id="services">
+            <h2>Our Services</h2>
+            <div class="service-cards">
+                <div class="card">
+                    <h3>24 Hours Service</h3>
+                    <p>Get all-time support for emergencies. We practise the principle of family medicine.</p>
+                    <a href="{% url 'patient_register' %}"><button type="button">Make an Appointment</button></a>
+                </div>
+
+                <div class="card">
+                    <h3>Working Hours</h3>
+                    <p>Sun - Wed: 8:00 - 22:00<br>Thu - Fri: 9:00 - 22:00<br>Sat - Sun: 10:00 - 22:00</p>
+                </div>
+
+                <div class="card">
+                    <h3>Emergency Cases</h3>
+                    <p><a href="tel:9388108108">9388-108-108</a><br>Call anytime for emergency support. We connect you
+                        with urgent care.</p>
+                </div>
+            </div>
+        </div>
+    </div><!-- /#main -->
+
+    <!-- Footer -->
+    <div id="footer">
+        <div class="footer-topic">
+            <h3>Novena</h3>
+            <p>We provide modern healthcare facilities with care and compassion for every patient.</p>
+        </div>
+
+        <div class="footer-topic">
+            <h4>Contact Us</h4>
+            <p>Email: <a href="mailto:support@novena.com">support@novena.com</a></p>
+            <p>Phone: <a href="tel:+914842880000">+91-484-2880000</a></p>
+            <p>Address: Post Box No. 2259, Mamangalam, Palarivattom. P O, Cochin, Kerala, India - 682 025</p>
+        </div>
+    </div>
+
+    <div id="footer-bottom">
+        <p>© 2025 Novena. All rights reserved.</p>
+    </div>
+</body>
+
+</html>
