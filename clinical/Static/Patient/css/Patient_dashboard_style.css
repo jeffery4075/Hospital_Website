@@ -253,32 +253,3 @@ textarea[readonly] {
   box-shadow: none;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 1100px) {
-  .MainPage {
-    padding: 24px 40px;
-  }
-}
-
-@media (max-width: 700px) {
-  .MainPage {
-    padding: 16px;
-  }
-
-  .card {
-    padding: 18px;
-    gap: 14px;
-  }
-
-  .field {
-    min-width: 100%;
-  }
-
-  .button-container {
-    justify-content: stretch;
-  }
-
-  .button-container .btn {
-    flex: 1;
-  }
-}

@@ -12,7 +12,6 @@
 <body>
     <div class="MainPage">
 
-        <!-- Profile card -->
         <div class="card">
             <h1>My Profile</h1>
 
@@ -95,7 +94,6 @@
             </div>
         </div>
 
-        <!-- Upcoming Appointments -->
         <div class="card">
             <div style="display:flex;align-items:center;justify-content:space-between;">
                 <h2>Upcoming Appointments</h2>
@@ -123,7 +121,6 @@
                 </div>
             </div>
 
-            <!-- Cancel (only for non-canceled upcoming ones; your view already selects upcoming) -->
             {% if appt.status != 'canceled' %}
             <form action="{% url 'cancel_appointment' appt.id %}" method="post" style="margin-top:8px;">
                 {% csrf_token %}
@@ -137,7 +134,6 @@
             {% endif %}
         </div>
 
-        <!-- Recent Visits -->
         <div class="card">
             <h2>Recent Visits</h2>
             {% if visits %}

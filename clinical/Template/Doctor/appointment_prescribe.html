@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <title>Visit & Prescribe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Page-specific CSS -->
     <link rel="stylesheet" href="{% static 'Doctor/css/Appointment_prescribe_style.css' %}">
 </head>
 
@@ -49,7 +48,6 @@
             {% endif %}
         </div>
 
-        <!-- Vitals (read-only) -->
         <div class="card">
             <h2>Vitals</h2>
             <div class="Inline-field">
@@ -81,7 +79,6 @@
             {% endif %}
         </div>
 
-        <!-- Symptoms (editable only if confirmed) -->
         <div class="card">
             <h2>Symptoms</h2>
 
@@ -108,7 +105,6 @@
             {% endif %}
         </div>
 
-        <!-- Existing prescriptions -->
         <div class="card">
             <h2>Existing Prescriptions</h2>
             {% if prescriptions %}
@@ -146,7 +142,6 @@
             {% endif %}
         </div>
 
-        <!-- Add prescription (only if confirmed) -->
         <div class="card">
             <h2>Add Prescription</h2>
 

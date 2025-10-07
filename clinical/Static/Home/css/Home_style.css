@@ -1,4 +1,3 @@
-/* ===== Base reset ===== */
 * {
     margin: 0;
     padding: 0;
@@ -25,13 +24,11 @@ button:focus {
     outline-offset: 2px;
 }
 
-/* ===== Layout containers ===== */
 #main {
     min-height: 100%;
     width: 100%;
 }
 
-/* ===== Topbar ===== */
 #topbar {
     background-color: #0d2853;
     color: #fff;
@@ -66,7 +63,6 @@ button:focus {
     flex: 0 0 auto;
 }
 
-/* ===== Header (banner) ===== */
 #header {
     width: 100%;
     display: flex;
@@ -93,14 +89,12 @@ button:focus {
     object-fit: contain;
 }
 
-/* Keep header_content just for the single Home link */
 #header_content {
     display: flex;
     align-items: center;
     flex: 1 1 auto;
 }
 
-/* Primary nav */
 .nav {
     display: flex;
     align-items: center;
@@ -108,7 +102,6 @@ button:focus {
     flex-wrap: wrap;
 }
 
-/* Pill link style for “Home” */
 .text {
     display: inline-flex;
     align-items: center;
@@ -127,7 +120,6 @@ button:focus {
     box-shadow: 0 2px 8px rgba(3, 27, 246, .12);
 }
 
-/* Login buttons (kept to the right) */
 #login-buttons {
     display: flex;
     gap: 12px;
@@ -182,7 +174,6 @@ button:focus {
   background: linear-gradient(135deg, #16a34a, #0f9d58);
 }
 
-/* ===== Services section ===== */
 #services {
     position: relative;
     padding: 10% 10%;
@@ -222,9 +213,7 @@ button:focus {
     border-radius: 10px;
     padding: 28px;
     flex: 1 1 300px;
-    /* responsive width */
     max-width: 360px;
-    /* keeps three in a row on desktop */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform .25s ease, box-shadow .25s ease;
 }

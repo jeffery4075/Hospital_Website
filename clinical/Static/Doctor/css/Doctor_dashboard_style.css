@@ -167,13 +167,3 @@ hr {
     border-top: 1px solid #e5e9f2;
     margin: 14px 0
 }
-
-@media(max-width:560px) {
-    .card {
-        padding: 18px
-    }
-
-    .card-header h1 {
-        font-size: 22px
-    }
-}
