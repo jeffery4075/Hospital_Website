@@ -6,17 +6,21 @@
     <meta charset="UTF-8">
     <title>Visit & Prescribe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'Doctor/css/Doctor_dashboard_style.css' %}">
+    <!-- Page-specific CSS -->
+    <link rel="stylesheet" href="{% static 'Doctor/css/Appointment_prescribe_style.css' %}">
 </head>
 
 <body>
     <div class="MainPage">
 
-        <!-- Summary -->
+        <!-- Header / summary card -->
         <div class="card">
             <div class="card-header">
                 <h1>Visit &amp; Prescribe</h1>
-                <a href="{% url 'doctor_logout' %}" class="btn btn-pill btn-danger btn-sm">Logout</a>
+                <div class="header-actions">
+                    <a href="{% url 'doctor_dashboard' %}" class="btn btn-pill btn-light btn-sm">Back</a>
+                    <a href="{% url 'doctor_logout' %}" class="btn btn-pill btn-danger btn-sm">Logout</a>
+                </div>
             </div>
 
             <div class="Inline-field">
@@ -40,12 +44,15 @@
             </div>
 
             {% if not can_prescribe %}
-            <p class="error">This appointment is {{ appointment.get_status_display|lower }}. Prescribing is disabled.
-            </p>
+            <p class="error">This appointment is {{ appointment.get_status_display|lower }}. Editing and prescribing are
+                disabled.</p>
             {% endif %}
+        </div>
 
-            <!-- Vitals -->
-            <div class="Inline-field" style="margin-top:6px;">
+        <!-- Vitals (read-only) -->
+        <div class="card">
+            <h2>Vitals</h2>
+            <div class="Inline-field">
                 <div class="field">
                     <label>Height (cm)</label>
                     <input type="text" value="{{ visit.height_cm }}" readonly>
@@ -69,6 +76,33 @@
                 <div class="field" style="flex-basis:100%;">
                     <label>Visit Notes</label>
                     <textarea rows="2" readonly>{{ visit.notes }}</textarea>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Symptoms (editable only if confirmed) -->
+        <div class="card">
+            <h2>Symptoms</h2>
+
+            {% if can_prescribe %}
+            <form method="post" class="Inline-field" novalidate>
+                {% csrf_token %}
+                <input type="hidden" name="action" value="save_symptoms">
+                <div class="field" style="flex-basis:100%;">
+                    <label for="{{ sym_form.symptoms.id_for_label }}">Patient Symptoms</label>
+                    {{ sym_form.symptoms }}
+                    {% for e in sym_form.symptoms.errors %}<span class="error">{{ e }}</span>{% endfor %}
+                </div>
+                <div class="button-container" style="justify-content:flex-end;">
+                    <button type="submit" class="btn btn-pill btn-primary btn-sm">Save Symptoms</button>
+                </div>
+            </form>
+            {% else %}
+            <div class="Inline-field">
+                <div class="field" style="flex-basis:100%;">
+                    <label>Patient Symptoms</label>
+                    <textarea rows="3" readonly>{{ visit.symptoms }}</textarea>
                 </div>
             </div>
             {% endif %}
@@ -108,17 +142,18 @@
             <hr>
             {% endfor %}
             {% else %}
-            <p class="error">No prescriptions added yet.</p>
+            <p class="muted">No prescriptions added yet.</p>
             {% endif %}
         </div>
 
-        <!-- Add prescription -->
+        <!-- Add prescription (only if confirmed) -->
         <div class="card">
             <h2>Add Prescription</h2>
 
             {% if can_prescribe %}
             <form method="post" class="Inline-field" novalidate>
                 {% csrf_token %}
+                <input type="hidden" name="action" value="add_prescription">
 
                 <div class="field">
                     <label for="{{ form.medicine_name.id_for_label }}">Medicine</label>
@@ -152,14 +187,13 @@
 
                 <div class="button-container" style="justify-content:flex-end;">
                     <button type="submit" class="btn btn-pill btn-primary btn-sm">Add</button>
-                    <a href="{% url 'doctor_dashboard' %}" class="btn btn-pill btn-sm"
-                        style="background:#eef2f7;">Back</a>
+                    <a href="{% url 'doctor_dashboard' %}" class="btn btn-pill btn-light btn-sm">Back</a>
                 </div>
             </form>
             {% else %}
             <p class="error">You can only prescribe for confirmed appointments.</p>
             <div class="button-container" style="justify-content:flex-end;">
-                <a href="{% url 'doctor_dashboard' %}" class="btn btn-pill btn-sm" style="background:#eef2f7;">Back</a>
+                <a href="{% url 'doctor_dashboard' %}" class="btn btn-pill btn-light btn-sm">Back</a>
             </div>
             {% endif %}
         </div>
